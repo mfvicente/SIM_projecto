@@ -1,8 +1,8 @@
 <?php
 
-echo"<table border = '1' width = '100%' align = 'top'>";
+echo"<table border = '1' width = '100%'>";
 
-    $patient_chart = array('firstName'=> 'Nome:',
+    $patient_chart = array('firstName' => 'Nome:',
                            'lastName' => 'Apelido:',
                            'profilePicture' => 'Imagem de perfil:',
                            'dateOfBirth' => 'Data de Nascimento:',
@@ -24,26 +24,28 @@ echo"<table border = '1' width = '100%' align = 'top'>";
 
     $patient_data = array();
 
+    echo "<TR><TD>*</TD><TD>campos obrigatorios</TD></TR>";
+    echo "<form method='POST' action='index.php?op=reg_paciente'>";
+
     foreach($patient_chart as $k => $i){
-        echo "<TR>";
-        echo "<TD align = 'right' width = '15%'>$i</TD>";
+        echo "<TR><TD width = '15%'>$i</TD>";
         if($k == 'profilePicture'){
-            echo "<TD align = 'left'>
-            <form method='POST' action='index.php?op=reg_paciente'>
-            <input type='file' accept='image/*' name='$k'>";
+            echo "<TD>
+            <p><input type='file' accept='image/*' name='$k'></p>";
         }
         else{
-            echo "<TD align = 'left'>
-                <form method='POST' action='index.php?op=reg_paciente'>
-                <input type='text' name='$k'>";
-            echo "</TD></TR>";
+            echo "<TD><input type='text' name='$k'>";
+            if ($_SERVER["REQUEST_METHOD"] == "POST" and empty($_POST[$k])){
+                echo "* necessario preencher";
+            }
         }
+        echo "</TD></TR>";
     }
 
     echo "<TR><TD align = 'left'>
             <form method='POST' action='index.php?op=reg_paciente'>
-            <input type='submit' name='Submit' value='Submit'></TD></TR>";
-    echo "</table>";
+            <input type='submit' name='Submit' value='Submit'></form></TD></TR>
+            </form></table>";
 
     if(isset($_POST['Submit']) and $_POST['Submit'] == 'Submit'){
         //Assim temos ja os dados guardados num array
